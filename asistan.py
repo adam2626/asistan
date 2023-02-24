@@ -14,7 +14,10 @@ mydb = mysql.connector.connect(
 
 # MySQL veritabanı bağlantı noktası
 mycursor = mydb.cursor()
-
+sql = "SELECT * FROM ogrenciler"
+mycursor.execute(sql)
+girdi = input("Lütfen bir sorgu giriniz: ")
+mycursor.execute(girdi)
 # Öğrenciler tablosunu oluşturma
 mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255), yas VARCHAR(255))")
 
