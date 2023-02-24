@@ -2,9 +2,9 @@ import mysql.connector
 import datetime
 import random
 import re
+import mysql.connector
 
-
-# Veritabanına bağlanmak için gerekli bilgileri değiştirin
+# MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -12,6 +12,29 @@ mydb = mysql.connector.connect(
   database="chatbot"
 )
 
+# MySQL veritabanı bağlantı noktası
+mycursor = mydb.cursor()
+
+# Öğrenciler tablosunu oluşturma
+mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255), yas VARCHAR(255))")
+
+
+# Veritabanı işlemleri yapılacak buradan devam edebilirsiniz
+
+
+
+# SQL sorgusunu çalıştır
+mycursor.execute(sql)
+
+# Değişiklikleri kaydet
+mydb.commit()
+
+
+# Bağlantıyı kontrol etmek için
+if mydb.is_connected():
+    print("Bağlantı başarılı!")
+else:
+    print("Bağlantı başarısız.")
 
 # Veritabanı işlemleri için bir cursor oluşturun
 mycursor = mydb.cursor()
