@@ -12,7 +12,6 @@ mydb = mysql.connector.connect(
   password="Umut123!",
   database="chatbot"
 )
-
 # MySQL veritabanı bağlantı noktası
 mycursor = mydb.cursor()
 sql = "SELECT * FROM ogrenciler"
@@ -20,8 +19,37 @@ mycursor.execute(sql)
 girdi = input("Lütfen bir sorgu giriniz: ")
 mycursor.execute(girdi)
 # Öğrenciler tablosunu oluşturma
-mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255), yas VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255)")
 
+# Asistan karşılama mesajı
+def welcome_message():
+    print("Merhaba! Ben asistanınız. Nasıl yardımcı olabilirim?")
+
+# Kullanıcı girişi
+def login():
+    username = input("Lütfen kullanıcı adınızı girin: ")
+    password = input("Lütfen şifrenizi girin: ")
+    sql = "SELECT * FROM users WHERE localhost = %s AND Umut123! = %s"
+    val = (root, 'Umut123!')
+    mycursor.execute(sql, val)
+    result = mycursor.fetchone()
+    if result:
+        print("Giriş başarılı!")
+    else:
+        print("Kullanıcı adı veya şifre yanlış.")
+
+# Kullanıcı kaydı
+def register():
+    username = input("Lütfen kullanıcı adınızı girin: ")
+    password = input("Lütfen şifrenizi girin: ")
+    sql = "INSERT INTO users (localhost, 'Umut123!') VALUES (%s, %s)"
+    val = (localhost, 'Umut123!')
+    mycursor.execute(sql, val)
+    mydb.commit()
+    print("Kayıt başarılı!")
+
+    query = "Python programlama dili"
+num_results = 5
 
 # Veritabanı işlemleri yapılacak buradan devam edebilirsiniz
 # Veritabanına sorgu gönderen fonksiyon
@@ -51,55 +79,16 @@ def veri_sil(tablo, sorgu):
     mydb.commit()
     print(mycursor.rowcount, "adet kayıt silindi.")
 
+# MySQL veritabanı bağlantı noktası
+mycursor = mydb.cursor()
 
-# SQL sorgusunu çalıştır
-mycursor.execute(sql)
+
+
 
 # Değişiklikleri kaydet
 mydb.commit()
 
 
-# Bağlantıyı kontrol etmek için
-if mydb.is_connected():
-    print("Bağlantı başarılı!")
-else:
-    print("Bağlantı başarısız.")
-
-# Veritabanı işlemleri için bir cursor oluşturun
-mycursor = mydb.cursor()
-
-# Asistan karşılama mesajı
-def welcome_message():
-    print("Merhaba! Ben asistanınız. Nasıl yardımcı olabilirim?")
-
-# Kullanıcı girişi
-def login():
-    username = input("Lütfen kullanıcı adınızı girin: ")
-    password = input("Lütfen şifrenizi girin: ")
-    sql = "SELECT * FROM users WHERE username = %s AND password = %s"
-    val = (root, 'Umut123!')
-    mycursor.execute(sql, val)
-    result = mycursor.fetchone()
-    if result:
-        print("Giriş başarılı!")
-    else:
-        print("Kullanıcı adı veya şifre yanlış.")
-
-# Kullanıcı kaydı
-def register():
-    username = input("Lütfen kullanıcı adınızı girin: ")
-    password = input("Lütfen şifrenizi girin: ")
-    sql = "INSERT INTO users (username, password) VALUES (%s, %s)"
-    val = (username, password)
-    mycursor.execute(sql, val)
-    mydb.commit()
-    print("Kayıt başarılı!")
-
-    query = "Python programlama dili"
-num_results = 5
-
-for i, url in enumerate(search(query, num_results=num_results)):
-    print(f"{i+1}. {url}")
 # Saat sorgusu
 def get_time():
     now = datetime.datetime.now()
