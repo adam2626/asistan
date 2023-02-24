@@ -20,7 +20,32 @@ mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT P
 
 
 # Veritabanı işlemleri yapılacak buradan devam edebilirsiniz
+# Veritabanına sorgu gönderen fonksiyon
+def sorgu_gonder(sorgu):
+    mycursor.execute(sorgu)
+    sonuc = mycursor.fetchall()
+    return sonuc
 
+# Veritabanına veri ekleyen fonksiyon
+def veri_ekle(tablo, sütunlar, değerler):
+    sql = "INSERT INTO " + tablo + " (" + sütunlar + ") VALUES (" + değerler + ")"
+    mycursor.execute(sql)
+    mydb.commit()
+    print(mycursor.rowcount, "adet kayıt eklendi.")
+
+# Veritabanındaki verileri güncelleyen fonksiyon
+def veri_guncelle(tablo, kolon, yeni_deger, sorgu):
+    sql = "UPDATE " + tablo + " SET " + kolon + " = '" + yeni_deger + "' WHERE " + sorgu
+    mycursor.execute(sql)
+    mydb.commit()
+    print(mycursor.rowcount, "adet kayıt güncellendi.")
+
+# Veritabanındaki verileri silen fonksiyon
+def veri_sil(tablo, sorgu):
+    sql = "DELETE FROM " + tablo + " WHERE " + sorgu
+    mycursor.execute(sql)
+    mydb.commit()
+    print(mycursor.rowcount, "adet kayıt silindi.")
 
 
 # SQL sorgusunu çalıştır
