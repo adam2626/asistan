@@ -3,6 +3,7 @@ import datetime
 import random
 import re
 import mysql.connector
+from googlesearch import search
 
 # MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
@@ -94,6 +95,11 @@ def register():
     mydb.commit()
     print("Kayıt başarılı!")
 
+    query = "Python programlama dili"
+num_results = 5
+
+for i, url in enumerate(search(query, num_results=num_results)):
+    print(f"{i+1}. {url}")
 # Saat sorgusu
 def get_time():
     now = datetime.datetime.now()
