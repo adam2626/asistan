@@ -18,6 +18,7 @@ sql = "SELECT * FROM ogrenciler"
 mycursor.execute(sql)
 girdi = input("Lütfen bir sorgu giriniz: ")
 mycursor.execute(girdi)
+result = mycursor.fetchall() # önceki sorgudan tüm sonuçları oku
 # Öğrenciler tablosunu oluşturma
 mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255)")
 
