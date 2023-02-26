@@ -81,6 +81,7 @@ def veri_sil(tablo, sorgu):
     mycursor.execute(sql)
     mydb.commit()
     print(mycursor.rowcount, "adet kayıt silindi.")
+    return mycursor.rowcount
     # Tabloyu sil
 def tablo_sil(tablo):
     sql = "DROP TABLE IF EXISTS " + tablo
