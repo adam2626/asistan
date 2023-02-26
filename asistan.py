@@ -3,6 +3,8 @@ import configparser
 import datetime
 import random
 import re
+from mysql.connector import Error
+import os
 from googlesearch import search
 
 # MySQL veritabanı bağlantısı oluşturma
@@ -32,18 +34,21 @@ def welcome_message():
     print("Merhaba! Ben asistanınız. Nasıl yardımcı olabilirim?")
 
 # Kullanıcı girişi
-def login():
-    username = input("Lütfen kullanıcı adınızı girin: ")
-    password = input("Lütfen şifrenizi girin: ")
-    sql = "SELECT * FROM users WHERE username = %s AND password = %s"
-    val = (username, password)
-    mycursor.execute(sql, val)
-    result = mycursor.fetchone()
-    if result:
-        print("Giriş başarılı!")
-    else:
-        print("Kullanıcı adı veya şifre yanlış.")
-        sys.exit()
+def giris():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    
+    try:
+        connection = mysql.connector.connect(
+            host=config['mysqlDB']['<Umut>'],
+            user=config['mysqlDB']['local'],
+            password=config['mysqlDB']['Umut123!'],
+            database=config['mysqlDB']['chatbot']
+        )
+        if connection.is_connected():
+            print("Bağlantı başarılı")
+    except Error as e:
+        print("Hata:", e)
 
 # Kullanıcı kaydı
 def register():
