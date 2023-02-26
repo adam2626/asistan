@@ -7,38 +7,26 @@ from googlesearch import search
 
 # MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
-  host="127.0.0.1",
+  host="localhost",
   user="root",
+  port="3306",
   password="Umut123!",
   database="chatbot"
 )
-# MySQL veritabanı bağlantı noktası
+
 mycursor = mydb.cursor()
 
-girdi = input("Lütfen bir sorgu giriniz: ")
-
-if girdi.strip():  # eğer kullanıcı boşluk dışında bir şeyler girdiyse
-    mycursor.execute(girdi)
-    sonuc = mycursor.fetchall()
-
-    for x in sonuc:
-        print(x)
-else:
-    print("Geçersiz bir sorgu girdiniz.")
-mycursor.execute(girdi)
-sonuc = mycursor.fetchall()
-
-for row in sonuc:
-    print(row)
+# Öğrenciler tablosunu oluşturma
+mycursor.execute("CREATE TABLE IF NOT EXISTS chatbot_ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255))")
 
 # Yeni sorguyu çalıştır
-mycursor.execute(girdi = "SELECT * FROM chatbot_ogrenciler;")
+mycursor.execute("SELECT * FROM chatbot_ogrenciler;")
 
 # Yeni sorgunun sonuçlarını al
 sonuc = mycursor.fetchall()
 
-# Öğrenciler tablosunu oluşturma
-mycursor.execute("CREATE TABLE IF NOT EXISTS chatbot_ogrenciler")
+for row in sonuc:
+    print(row)
 
 # Asistan karşılama mesajı
 def welcome_message():
@@ -48,8 +36,8 @@ def welcome_message():
 def login():
     username = input("Lütfen kullanıcı adınızı girin: ")
     password = input("Lütfen şifrenizi girin: ")
-    sql = "SELECT * FROM users WHERE localhost = %s AND Umut123! = %s"
-    val = (root, 'Umut123!')
+    sql = "SELECT * FROM users WHERE username = %s AND password = %s"
+    val = (username, password)
     mycursor.execute(sql, val)
     result = mycursor.fetchone()
     if result:
@@ -61,16 +49,12 @@ def login():
 def register():
     username = input("Lütfen kullanıcı adınızı girin: ")
     password = input("Lütfen şifrenizi girin: ")
-    sql = "INSERT INTO users (localhost, 'Umut123!') VALUES (%s, %s)"
-    val = (localhost, 'Umut123!')
+    sql = "INSERT INTO users (username, password) VALUES (%s, %s)"
+    val = (username, password)
     mycursor.execute(sql, val)
     mydb.commit()
     print("Kayıt başarılı!")
 
-    query = "Python programlama dili"
-num_results = 5
-
-# Veritabanı işlemleri yapılacak buradan devam edebilirsiniz
 # Veritabanına sorgu gönderen fonksiyon
 def sorgu_gonder(sorgu):
     mycursor.execute(sorgu)
@@ -97,9 +81,15 @@ def veri_sil(tablo, sorgu):
     mycursor.execute(sql)
     mydb.commit()
     print(mycursor.rowcount, "adet kayıt silindi.")
-
-# MySQL veritabanı bağlantı noktası
-mycursor = mydb.cursor()
+    # Tabloyu sil
+def tablo_sil(tablo):
+    sql = "DROP TABLE IF EXISTS " + tablo
+    mycursor.execute(sql)
+    mydb.commit()
+    # chatbot_ogrenciler tablosunu sil
+    tablo_sil("chatbot_ogrenciler")
+    print(tablo, "tablosu silindi.")
+    
 
 
 
