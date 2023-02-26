@@ -13,17 +13,17 @@ from googlesearch import search
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="Umut123!",
+  password="05392064977Umut",
   database="chatbot"
 )
 
 mycursor = mydb.cursor()
 
 # Öğrenciler tablosunu oluşturma
-mycursor.execute("CREATE TABLE IF NOT EXISTS chatbot (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenci (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255), adres VARCHAR(255), sehir VARCHAR(255))")
 
 # Yeni sorguyu çalıştır
-mycursor.execute("SELECT * FROM chatbot;")
+mycursor.execute("SELECT * FROM ogrenci;")
 
 # Yeni sorgunun sonuçlarını al
 sonuc = mycursor.fetchall()
@@ -90,7 +90,7 @@ def tablo_sil(tablo):
     mycursor.execute(sql)
     mydb.commit()
     # chatbot_ogrenciler tablosunu sil
-    tablo_sil("chatbot_ogrenciler")
+    tablo_sil("chatbot_ogrenci")
     logging(tablo, "tablosu silindi.")
 # Saat sorgusu
 def get_time():
