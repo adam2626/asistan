@@ -21,7 +21,7 @@ girdi = input("Lütfen bir sorgu giriniz: ")
 myresult = mycursor.fetchall()
 
 # Yeni sorguyu çalıştır
-mycursor.execute(girdi)
+mycursor.execute("SELECT * FROM ogrenciler;
 
 # Yeni sorgunun sonuçlarını al
 myresult = mycursor.fetchall()
