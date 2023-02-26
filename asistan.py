@@ -1,8 +1,8 @@
 import mysql.connector
+import configparser
 import datetime
 import random
 import re
-import mysql.connector
 from googlesearch import search
 
 # MySQL veritabanı bağlantısı oluşturma
@@ -43,6 +43,7 @@ def login():
         print("Giriş başarılı!")
     else:
         print("Kullanıcı adı veya şifre yanlış.")
+        sys.exit()
 
 # Kullanıcı kaydı
 def register():
@@ -128,4 +129,4 @@ def chat():
         # Çıkış işlemi
         if re.search(r'\b(çıkış|kapat)\b', message, re.IGNORECASE):
             print("Hoşçakalın!")
-            break
+            sys.exit()
