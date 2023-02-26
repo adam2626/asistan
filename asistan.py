@@ -7,27 +7,38 @@ from googlesearch import search
 
 # MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
-  host="localhost",
+  host="127.0.0.1",
   user="root",
   password="Umut123!",
   database="chatbot"
 )
 # MySQL veritabanı bağlantı noktası
 mycursor = mydb.cursor()
-sql = "SELECT * FROM ogrenciler"
-mycursor.execute(sql)
+
 girdi = input("Lütfen bir sorgu giriniz: ")
-# Önceki sorgunun sonuçlarını oku
-myresult = mycursor.fetchall()
+
+if girdi.strip():  # eğer kullanıcı boşluk dışında bir şeyler girdiyse
+    mycursor.execute(girdi)
+    sonuc = mycursor.fetchall()
+
+    for x in sonuc:
+        print(x)
+else:
+    print("Geçersiz bir sorgu girdiniz.")
+mycursor.execute(girdi)
+sonuc = mycursor.fetchall()
+
+for row in sonuc:
+    print(row)
 
 # Yeni sorguyu çalıştır
-mycursor.execute("SELECT * FROM ogrenciler;
+mycursor.execute(girdi = "SELECT * FROM chatbot_ogrenciler;")
 
 # Yeni sorgunun sonuçlarını al
-myresult = mycursor.fetchall()
+sonuc = mycursor.fetchall()
 
 # Öğrenciler tablosunu oluşturma
-mycursor.execute("CREATE TABLE IF NOT EXISTS ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255)")
+mycursor.execute("CREATE TABLE IF NOT EXISTS chatbot_ogrenciler")
 
 # Asistan karşılama mesajı
 def welcome_message():
