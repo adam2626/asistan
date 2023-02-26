@@ -9,7 +9,6 @@ from googlesearch import search
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  port="3306",
   password="Umut123!",
   database="chatbot"
 )
@@ -17,10 +16,10 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 
 # Öğrenciler tablosunu oluşturma
-mycursor.execute("CREATE TABLE IF NOT EXISTS chatbot_ogrenciler (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255))")
+mycursor.execute("CREATE TABLE IF NOT EXISTS chatbot (id INT AUTO_INCREMENT PRIMARY KEY, isim VARCHAR(255), soyisim VARCHAR(255))")
 
 # Yeni sorguyu çalıştır
-mycursor.execute("SELECT * FROM chatbot_ogrenciler;")
+mycursor.execute("SELECT * FROM chatbot;")
 
 # Yeni sorgunun sonuçlarını al
 sonuc = mycursor.fetchall()
@@ -130,4 +129,3 @@ def chat():
         if re.search(r'\b(çıkış|kapat)\b', message, re.IGNORECASE):
             print("Hoşçakalın!")
             break
-            print()
