@@ -1,6 +1,8 @@
 import mysql.connector
 import configparser
 import datetime
+import logging
+logging.basicConfig(level=logging.DEBUG)
 import random
 import re
 from mysql.connector import Error
@@ -27,28 +29,23 @@ mycursor.execute("SELECT * FROM chatbot;")
 sonuc = mycursor.fetchall()
 
 for row in sonuc:
-    print(row)
+    logging(row)
 
 # Asistan karşılama mesajı
 def welcome_message():
-    print("Merhaba! Ben asistanınız. Nasıl yardımcı olabilirim?")
+    logging("Merhaba! Ben asistanınız. Nasıl yardımcı olabilirim?")
 
 # Kullanıcı girişi
 def giris():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    
-    try:
-        connection = mysql.connector.connect(
-            host=config['mysqlDB']['<Umut>'],
-            user=config['mysqlDB']['local'],
-            password=config['mysqlDB']['Umut123!'],
-            database=config['mysqlDB']['chatbot']
-        )
-        if connection.is_connected():
-            print("Bağlantı başarılı")
-    except Error as e:
-        print("Hata:", e)
+    logging.debug("giris fonksiyonu çağrıldı")
+
+    # Kullanıcı adı ve şifreyi kontrol etme işlemi
+    if kontrol:
+        logging.debug("giris fonksiyonu: kullanıcı adı ve şifre doğru")
+        logging("Giriş başarılı!")
+    else:
+        logging.debug("giris fonksiyonu: kullanıcı adı veya şifre yanlış")
+        logging("Kullanıcı adı veya şifre yanlış!")
 
 # Kullanıcı kaydı
 def register():
@@ -58,7 +55,7 @@ def register():
     val = (username, password)
     mycursor.execute(sql, val)
     mydb.commit()
-    print("Kayıt başarılı!")
+    logging("Kayıt başarılı!")
 
 # Veritabanına sorgu gönderen fonksiyon
 def sorgu_gonder(sorgu):
@@ -71,21 +68,21 @@ def veri_ekle(tablo, sütunlar, değerler):
     sql = "INSERT INTO " + tablo + " (" + sütunlar + ") VALUES (" + değerler + ")"
     mycursor.execute(sql)
     mydb.commit()
-    print(mycursor.rowcount, "adet kayıt eklendi.")
+    logging(mycursor.rowcount, "adet kayıt eklendi.")
 
 # Veritabanındaki verileri güncelleyen fonksiyon
 def veri_guncelle(tablo, kolon, yeni_deger, sorgu):
     sql = "UPDATE " + tablo + " SET " + kolon + " = '" + yeni_deger + "' WHERE " + sorgu
     mycursor.execute(sql)
     mydb.commit()
-    print(mycursor.rowcount, "adet kayıt güncellendi.")
+    logging(mycursor.rowcount, "adet kayıt güncellendi.")
 
 # Veritabanındaki verileri silen fonksiyon
 def veri_sil(tablo, sorgu):
     sql = "DELETE FROM " + tablo + " WHERE " + sorgu
     mycursor.execute(sql)
     mydb.commit()
-    print(mycursor.rowcount, "adet kayıt silindi.")
+    logging(mycursor.rowcount, "adet kayıt silindi.")
     return mycursor.rowcount
     # Tabloyu sil
 def tablo_sil(tablo):
@@ -94,21 +91,12 @@ def tablo_sil(tablo):
     mydb.commit()
     # chatbot_ogrenciler tablosunu sil
     tablo_sil("chatbot_ogrenciler")
-    print(tablo, "tablosu silindi.")
-    
-
-
-
-
-# Değişiklikleri kaydet
-mydb.commit()
-
-
+    logging(tablo, "tablosu silindi.")
 # Saat sorgusu
 def get_time():
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M:%S")
-    print("Şu an saat " + current_time)
+    logging("Şu an saat " + current_time)
 
 # Döviz kuru sorgusu
 def get_exchange_rate():
@@ -117,7 +105,7 @@ def get_exchange_rate():
     # urllib kütüphanesi ile XML verisini çekin
     # BeautifulSoup kütüphanesi ile XML verisini parse edin
     # İstenen döviz kurunu veri içinden çekin ve ekrana yazdırın
-    print("1 " + currency + " = " + str(random.uniform(5, 10)) + " TRY")
+    logging("1 " + currency + " = " + str(random.uniform(5, 10)) + " TRY")
 
 # Arama motoru sorgusu
 def search(query):
@@ -125,7 +113,7 @@ def search(query):
     # requests kütüphanesi ile bir arama motoruna GET isteği gönderin ve
     # BeautifulSoup kütüphanesi ile sayfa içeriğini parse edin
     # İlgili bilgileri veri içinden çekin ve ekrana yazdırın
-    print("Sorgu: " + query)
+    logging("Sorgu: " + query)
 
 # Chatbot işlevi
 def chat():
@@ -134,5 +122,5 @@ def chat():
         message = input("Sana nasıl yardımcı olabilirim?: ")
         # Çıkış işlemi
         if re.search(r'\b(çıkış|kapat)\b', message, re.IGNORECASE):
-            print("Hoşçakalın!")
-            sys.exit()
+            logging("Hoşçakalın!")
+logging.exception("Hata oluştu")
