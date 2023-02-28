@@ -14,20 +14,17 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="Umut123!",
-  database="chatbot"
+  database="bot"
 )
 
 mycursor = mydb.cursor()
 
+mycursor.execute("SELECT * FROM users")
 
-# Yeni sorguyu çalıştır
-mycursor.execute("SELECT * FROM ogrenci;")
+myresult = mycursor.fetchall()
 
-# Yeni sorgunun sonuçlarını al
-sonuc = mycursor.fetchall()
-
-for row in sonuc:
-    logging(row)
+for x in myresult:
+  print(x)
 
 # Asistan karşılama mesajı
 def welcome_message():
