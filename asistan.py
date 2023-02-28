@@ -1,6 +1,7 @@
 import mysql.connector
 import configparser
 import datetime
+import config
 import logging
 logging.basicConfig(level=logging.DEBUG)
 import random
@@ -8,10 +9,17 @@ import re
 from mysql.connector import Error
 import os
 from googlesearch import search
+config = {
+    'user': 'root',
+    'password': 'Umut123!',
+    'host': '127.0.0.1',
+    'port': '3306',
+    'database': 'bot'
+}
 
 # MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
-  host="localhost",
+  host="127.0.0.1'",
   user="root",
   password="Umut123!",
   database="bot"
