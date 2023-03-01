@@ -1,38 +1,38 @@
 import mysql.connector
+from mysql.connector import errorcode
+import config
 import configparser
 import datetime
-import config
 import logging
 logging.basicConfig(level=logging.DEBUG)
 import random
 import re
 from mysql.connector import Error
 import os
-from googlesearch import search
-config = {
+
+MYSQL_CONFIG = {
     'user': 'root',
     'password': 'Umut123!',
     'host': '127.0.0.1',
-    'port': '3306',
-    'database': 'bot'
+    'database': 'bot',
+    'raise_on_warnings': True
 }
 
 # MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
-  host="127.0.0.1'",
+  host="localhost'",
   user="root",
   password="Umut123!",
   database="bot"
 )
 
+        
 mycursor = mydb.cursor()
 
 mycursor.execute("SELECT * FROM users")
 
 myresult = mycursor.fetchall()
 
-for x in myresult:
-  print(x)
 
 # Asistan karşılama mesajı
 def welcome_message():
