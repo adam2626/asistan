@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import config
+import webbrowser
 import configparser
 import datetime
 import logging
@@ -20,13 +21,12 @@ MYSQL_CONFIG = {
 
 # MySQL veritabanı bağlantısı oluşturma
 mydb = mysql.connector.connect(
-  host="localhost'",
+  host="localhost",
   user="root",
   password="Umut123!",
   database="bot"
 )
 
-        
 mycursor = mydb.cursor()
 
 mycursor.execute("SELECT * FROM users")
@@ -34,6 +34,29 @@ mycursor.execute("SELECT * FROM users")
 myresult = mycursor.fetchall()
 
 
+
+
+
+# saat ve tarih
+def get_time():
+    now = datetime.datetime.now()
+    return now.strftime("%H:%M:%S")
+
+def get_date():
+    now = datetime.datetime.now()
+    return now.strftime("%d/%m/%Y")
+
+
+# arama
+def search(query):
+    url = f"https://www.google.com.tr/search?q={query}"
+    webbrowser.open_new_tab(url)
+    
+# uygulama
+
+def open_application(name):
+    os.startfile(name)
+    
 # Asistan karşılama mesajı
 def welcome_message():
     logging("Merhaba! Ben asistanınız. Nasıl yardımcı olabilirim?")
